@@ -35,6 +35,83 @@ class UserController {
             return res.status(500).json(error.message);
         }
     }
+
+	 static async getAllWorkspaces(req, res) {
+		const { user_id } = req.params;
+		try {
+			const workspaces = await database.Workspace.findAll({
+				where: {
+					user_id: user_id
+				}
+			});
+			return res.status(200).json(workspaces);
+		} catch (error) {
+			return res.status(500).json(error.message);
+		}
+	 }
+
+	 static async getWorkspace(req, res) {
+		const { user_id, workspace_id } = req.params;
+		try {
+			const workspaces = await database.Workspace.findOne({
+				where: {
+					id: workspace_id,
+					user_id: user_id
+				}
+			});
+			return res.status(200).json(workspaces);
+		} catch (error) {
+			return res.status(500).json(error.message);
+		}
+	 }
+
+	 static async createWorkspace(req, res) {
+		const { user_id } = req.params;
+		const newWorkspace = { ...req.body, user_id: user_id };
+		try {
+			const createdWorkspace = await database.Workspace.create(newWorkspace);
+			return res.status(200).json(createdWorkspace);
+		} catch (error) {
+			return res.status(500).json(error.message);
+		}
+	 }
+
+	 static async updateWorkspace(req, res) {
+		const { user_id, workspace_id } = req.params;
+		const updatedData = req.body;
+		try {
+			await database.Workspace.update(updatedData, {
+				where: {
+					id: workspace_id,
+					user_id: user_id
+				}
+			});
+			const updatedWorkspace = await database.Workspace.findOne({
+				where: {
+					id: workspace_id,
+					user_id: user_id
+				}
+			});
+			return res.status(200).json(updatedWorkspace);
+		} catch (error) {
+			return res.status(500).json(error.message);
+		}
+	 }
+
+	 static async deleteWorkspace(req, res) {
+		const { user_id, workspace_id } = req.params;
+		try {
+			await database.Workspace.destroy({
+				where: {
+					id: workspace_id,
+					user_id: user_id
+				}
+			});
+			return res.status(200).json({ message: `Registro de id ${workspace_id} deletado`});
+		} catch (error) {
+			return res.status(500).json(error.message);
+		}
+	 }
 }
 
 module.exports = UserController;
