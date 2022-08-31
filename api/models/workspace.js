@@ -10,12 +10,12 @@ module.exports = (sequelize, DataTypes) => {
   Workspace.init({
     title: {
 		type: DataTypes.STRING,
+    allowNull: false,
 		validate: {
 			notEmpty: true,
-			notNull: true
 		}
 	 },
-    content: DataTypes.TEXT
+    content: DataTypes.STRING(4000)
   }, {
     sequelize,
     modelName: 'Workspace',
