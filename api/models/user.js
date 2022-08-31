@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
 		User.hasMany(models.Workspace, {
-			foreignKey: "workspace_id"
+			foreignKey: "user_id"
 		});
     }
   }
