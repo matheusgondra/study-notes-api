@@ -10,19 +10,22 @@ module.exports = (sequelize, DataTypes) => {
   User.init({
     username: {
 		type: DataTypes.STRING,
+		allowNull: false,
 		validate: {
-			isEmail: true,
-			notNull: true,
-			notEmpty: true
+			notEmpty: {
+				msg: "O campo username não deve ser vazio"
+			}
 		}
 	 },
     password: {
 		type: DataTypes.STRING,
+		allowNull: false,
 		validate: {
 			notEmpty: true,
-			notNull: true,
-			min: 6,
-			max: 20
+			len: {
+				args: [6, 20],
+				msg: "A senha deve ter entre 6 e 20 caracteres"
+			}
 		}
 	 }
   }, {
