@@ -5,6 +5,9 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Workspace extends Model {
     static associate(models) {
+		Workspace.belongsTo(models.User, {
+			foreignKey: "workspace_id"
+		});
     }
   }
   Workspace.init({
