@@ -5,13 +5,14 @@ const {
 module.exports = (sequelize, DataTypes) => {
   class Workspace extends Model {
     static associate(models) {
-		Workspace.belongsTo(models.User);
+		Workspace.belongsTo(models.User, {
+			foreignKey: "user_id"
+		});
     }
   }
   Workspace.init({
     title: {
 		type: DataTypes.STRING,
-    allowNull: false,
 		validate: {
 			notEmpty: true,
 		}

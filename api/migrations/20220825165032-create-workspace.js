@@ -14,6 +14,11 @@ module.exports = {
       content: {
         type: Sequelize.TEXT
       },
+		user_id: {
+			allowNull: false,
+			type: Sequelize.INTEGER,
+			references: { model: "Users", key: "id" }
+		},
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
