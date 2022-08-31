@@ -25,10 +25,6 @@ module.exports = (sequelize, DataTypes) => {
 		allowNull: false,
 		validate: {
 			notEmpty: true,
-			len: {
-				args: [6, 20],
-				msg: "A senha deve ter entre 6 e 20 caracteres"
-			}
 		}
 	 }
   }, {
