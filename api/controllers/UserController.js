@@ -3,13 +3,17 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
 class UserController {
+	static generateToken(payload = {}) {
+		return jwt.sign(payload, process.env.SECRET, { expiresIn: 86400 });
+	}
+
     static async createUser(req, res) {
         const newUser = req.body;
         try {
             newUser.password = await bcrypt.hash(newUser.password, 12);
             const createdUser = await database.User.create(newUser);
             createdUser.password = undefined;
-            return res.status(201).json(createdUser);
+            return res.status(201).json({ createdUser, token: UserController.generateToken({ id: createdUser.id }) });
         } catch (error) {
             return res.status(500).json(error.message);
         }
@@ -27,9 +31,7 @@ class UserController {
                 return res.status(404).json({ error: "Usuário invalido"});
             }
 
-            const token = jwt.sign({ id: user.id }, process.env.SECRET, { expiresIn: 86400 });
-
-            return res.status(200).json({ auth: true, token: token });
+            return res.status(200).json({ auth: true, token: UserController.generateToken({ id: user.id }) });
 
         } catch (error) {
             return res.status(500).json(error.message);
